@@ -1,9 +1,19 @@
 package br.pro.ramon.modelos;
 
-public class Aluno {
+import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement
+public class Aluno implements Serializable {
 
     private String nome;
     private double p1, p2;
+
+    protected Aluno() {
+    }
 
     public Aluno(String nome, double p1, double p2) throws NotaInvalidaException {
         if (nome == null || nome.trim().isEmpty()) {
@@ -17,10 +27,21 @@ public class Aluno {
         this.p2 = p2;
     }
 
+    @XmlTransient
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @XmlElement
     public double getMedia() {
         return (p1 + p2) / 2;
     }
 
+    @XmlAttribute
     public boolean getAprovado() {
         return getMedia() >= 6;
     }

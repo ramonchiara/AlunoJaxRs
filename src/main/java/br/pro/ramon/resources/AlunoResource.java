@@ -94,4 +94,36 @@ public class AlunoResource {
         return Response.status(Response.Status.FOUND).location(URI.create("aluno/" + nome + "/" + p1 + "/" + p2)).build();
     }
 
+    @GET
+    @Path("/jaxb/xml")
+    @Produces(MediaType.APPLICATION_XML)
+    public Aluno ex9(@QueryParam("nome") String nome, @QueryParam("p1") double p1, @QueryParam("p2") double p2) throws NotaInvalidaException {
+        return new Aluno(nome, p1, p2);
+    }
+
+    @GET
+    @Path("/jaxb/json")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Aluno ex10(@QueryParam("nome") String nome, @QueryParam("p1") double p1, @QueryParam("p2") double p2) throws NotaInvalidaException {
+        return new Aluno(nome, p1, p2);
+    }
+
+    @GET
+    @Path("/jaxb/json-and-status-code")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response ex11(@QueryParam("nome") String nome, @QueryParam("p1") double p1, @QueryParam("p2") double p2) {
+        try {
+            Aluno aluno = new Aluno(nome, p1, p2);
+            return Response.status(Response.Status.OK).entity(aluno).build();
+        } catch (NullPointerException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(String.format("{ \"erro\": \"%s\" }", "Entre com todos os parâmetros.")).build();
+        } catch (NumberFormatException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(String.format("{ \"erro\": \"%s\" }", "Entre com números para p1 e p2.")).build();
+        } catch (IllegalArgumentException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(String.format("{ \"erro\": \"%s\" }", "O nome é obrigatório.")).build();
+        } catch (NotaInvalidaException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity(String.format("{ \"erro\": \"%s\" }", "Entre com notas válidas para p1 e p2.")).build();
+        }
+    }
+
 }
