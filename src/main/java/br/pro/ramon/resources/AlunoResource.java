@@ -4,6 +4,7 @@ import br.pro.ramon.modelos.Aluno;
 import br.pro.ramon.modelos.NotaInvalidaException;
 import java.net.URI;
 import java.util.Locale;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -124,6 +125,14 @@ public class AlunoResource {
         } catch (NotaInvalidaException ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity(String.format("{ \"erro\": \"%s\" }", "Entre com notas válidas para p1 e p2.")).build();
         }
+    }
+
+    @POST
+    @Path("/jaxb/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Aluno ex12(Aluno aluno) {
+        return aluno;
     }
 
 }

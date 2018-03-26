@@ -36,6 +36,14 @@ public class Aluno implements Serializable {
         this.nome = nome;
     }
 
+    public void setP1(double p1) {
+        this.p1 = p1;
+    }
+
+    public void setP2(double p2) {
+        this.p2 = p2;
+    }
+
     @XmlElement
     public double getMedia() {
         return (p1 + p2) / 2;
